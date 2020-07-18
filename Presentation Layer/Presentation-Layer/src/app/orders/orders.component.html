@@ -1,0 +1,29 @@
+<div class="main" style="margin-left: 150px; margin-right: 150px;">
+    <br />
+    <br />
+    <p align="center">
+    <u><b><h1>Order Details Page</h1></b></u>
+    </p>
+    <br />
+    <br />
+    <table width=1000px border="3px" align="center" class="table table-striped" cellpadding=5px>
+        <thead>
+           <tr width=250px height=30px>
+              <th>Order No</th>
+              <th>Product Id</th>
+              <th>Quantity</th>
+              <th>Price</th>
+              <th>Total Amount</th>
+           </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of orderDetailList | orderfilter: searchTerm">   
+                <td>{{item.orderItemId}}</td> 
+                <td>{{item.productId}}</td>
+                <td>{{item.quantity}}</td>
+                <td>{{item.price}}</td>
+                <td>{{item.totalAmount}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

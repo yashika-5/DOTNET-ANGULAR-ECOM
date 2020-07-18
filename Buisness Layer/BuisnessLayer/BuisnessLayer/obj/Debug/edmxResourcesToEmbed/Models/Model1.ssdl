@@ -1,0 +1,190 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="CyberShopeeModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="categories">
+    <Key>
+      <PropertyRef Name="categoryId" />
+    </Key>
+    <Property Name="categoryId" Type="int" Nullable="false" />
+    <Property Name="categoryName" Type="varchar" MaxLength="20" />
+  </EntityType>
+  <EntityType Name="customers">
+    <Key>
+      <PropertyRef Name="userId" />
+    </Key>
+    <Property Name="userId" Type="int" Nullable="false" />
+    <Property Name="userName" Type="varchar" MaxLength="15" />
+    <Property Name="email" Type="varchar" MaxLength="30" />
+    <Property Name="phoneNo" Type="varchar" MaxLength="15" />
+    <Property Name="address" Type="varchar" MaxLength="60" />
+    <Property Name="pincode" Type="varchar" MaxLength="6" />
+  </EntityType>
+  <EntityType Name="orderDetails">
+    <Key>
+      <PropertyRef Name="orderItemId" />
+    </Key>
+    <Property Name="orderItemId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="userId" Type="int" />
+    <Property Name="productId" Type="int" />
+    <Property Name="quantity" Type="int" />
+    <Property Name="price" Type="money" />
+    <Property Name="totalAmount" Type="money" />
+  </EntityType>
+  <EntityType Name="products">
+    <Key>
+      <PropertyRef Name="productId" />
+    </Key>
+    <Property Name="productId" Type="int" Nullable="false" />
+    <Property Name="productName" Type="varchar" MaxLength="20" />
+    <Property Name="categoryId" Type="int" />
+    <Property Name="price" Type="money" />
+    <Property Name="description" Type="varchar" MaxLength="40" />
+    <Property Name="imageUrl" Type="varchar" MaxLength="40" />
+  </EntityType>
+  <EntityType Name="roles">
+    <Key>
+      <PropertyRef Name="roleId" />
+    </Key>
+    <Property Name="roleId" Type="int" Nullable="false" />
+    <Property Name="roleName" Type="varchar" MaxLength="20" />
+  </EntityType>
+  <EntityType Name="shoppingCart">
+    <Key>
+      <PropertyRef Name="cartNo" />
+    </Key>
+    <Property Name="cartNo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="userId" Type="int" />
+    <Property Name="productId" Type="int" />
+    <Property Name="quantity" Type="int" />
+    <Property Name="price" Type="money" />
+    <Property Name="totalAmount" Type="money" />
+  </EntityType>
+  <EntityType Name="users">
+    <Key>
+      <PropertyRef Name="userId" />
+    </Key>
+    <Property Name="userId" Type="int" Nullable="false" />
+    <Property Name="userPassword" Type="varchar" MaxLength="20" />
+    <Property Name="roleId" Type="int" />
+  </EntityType>
+  <Association Name="FK__customers__userI__173876EA">
+    <End Role="users" Type="Self.users" Multiplicity="1" />
+    <End Role="customers" Type="Self.customers" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="users">
+        <PropertyRef Name="userId" />
+      </Principal>
+      <Dependent Role="customers">
+        <PropertyRef Name="userId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__orderDeta__produ__1FCDBCEB">
+    <End Role="products" Type="Self.products" Multiplicity="0..1" />
+    <End Role="orderDetails" Type="Self.orderDetails" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="products">
+        <PropertyRef Name="productId" />
+      </Principal>
+      <Dependent Role="orderDetails">
+        <PropertyRef Name="productId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__orderDeta__userI__1ED998B2">
+    <End Role="users" Type="Self.users" Multiplicity="0..1" />
+    <End Role="orderDetails" Type="Self.orderDetails" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="users">
+        <PropertyRef Name="userId" />
+      </Principal>
+      <Dependent Role="orderDetails">
+        <PropertyRef Name="userId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__products__catego__1BFD2C07">
+    <End Role="categories" Type="Self.categories" Multiplicity="0..1" />
+    <End Role="products" Type="Self.products" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="categories">
+        <PropertyRef Name="categoryId" />
+      </Principal>
+      <Dependent Role="products">
+        <PropertyRef Name="categoryId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__shoppingC__produ__239E4DCF">
+    <End Role="products" Type="Self.products" Multiplicity="0..1" />
+    <End Role="shoppingCart" Type="Self.shoppingCart" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="products">
+        <PropertyRef Name="productId" />
+      </Principal>
+      <Dependent Role="shoppingCart">
+        <PropertyRef Name="productId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__shoppingC__userI__22AA2996">
+    <End Role="customers" Type="Self.customers" Multiplicity="0..1" />
+    <End Role="shoppingCart" Type="Self.shoppingCart" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="customers">
+        <PropertyRef Name="userId" />
+      </Principal>
+      <Dependent Role="shoppingCart">
+        <PropertyRef Name="userId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__users__roleId__1273C1CD">
+    <End Role="roles" Type="Self.roles" Multiplicity="0..1" />
+    <End Role="users" Type="Self.users" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="roles">
+        <PropertyRef Name="roleId" />
+      </Principal>
+      <Dependent Role="users">
+        <PropertyRef Name="roleId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="CyberShopeeModelStoreContainer">
+    <EntitySet Name="categories" EntityType="Self.categories" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="customers" EntityType="Self.customers" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="orderDetails" EntityType="Self.orderDetails" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="products" EntityType="Self.products" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="roles" EntityType="Self.roles" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="shoppingCart" EntityType="Self.shoppingCart" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="users" EntityType="Self.users" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__customers__userI__173876EA" Association="Self.FK__customers__userI__173876EA">
+      <End Role="users" EntitySet="users" />
+      <End Role="customers" EntitySet="customers" />
+    </AssociationSet>
+    <AssociationSet Name="FK__orderDeta__produ__1FCDBCEB" Association="Self.FK__orderDeta__produ__1FCDBCEB">
+      <End Role="products" EntitySet="products" />
+      <End Role="orderDetails" EntitySet="orderDetails" />
+    </AssociationSet>
+    <AssociationSet Name="FK__orderDeta__userI__1ED998B2" Association="Self.FK__orderDeta__userI__1ED998B2">
+      <End Role="users" EntitySet="users" />
+      <End Role="orderDetails" EntitySet="orderDetails" />
+    </AssociationSet>
+    <AssociationSet Name="FK__products__catego__1BFD2C07" Association="Self.FK__products__catego__1BFD2C07">
+      <End Role="categories" EntitySet="categories" />
+      <End Role="products" EntitySet="products" />
+    </AssociationSet>
+    <AssociationSet Name="FK__shoppingC__produ__239E4DCF" Association="Self.FK__shoppingC__produ__239E4DCF">
+      <End Role="products" EntitySet="products" />
+      <End Role="shoppingCart" EntitySet="shoppingCart" />
+    </AssociationSet>
+    <AssociationSet Name="FK__shoppingC__userI__22AA2996" Association="Self.FK__shoppingC__userI__22AA2996">
+      <End Role="customers" EntitySet="customers" />
+      <End Role="shoppingCart" EntitySet="shoppingCart" />
+    </AssociationSet>
+    <AssociationSet Name="FK__users__roleId__1273C1CD" Association="Self.FK__users__roleId__1273C1CD">
+      <End Role="roles" EntitySet="roles" />
+      <End Role="users" EntitySet="users" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

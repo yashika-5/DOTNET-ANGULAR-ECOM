@@ -1,0 +1,9 @@
+.form-container{
+    width: 50%;
+    margin: auto;
+  
+    margin-top: 50px;
+}
+td, th {
+    padding: 20px;
+}

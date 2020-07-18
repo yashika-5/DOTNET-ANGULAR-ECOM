@@ -1,0 +1,41 @@
+<div class="container-fluid">
+ 
+  <div class="row newnavbar">
+    <div class="form-group">
+      <div class="col-md-6"  style="float:left">
+          <!-- search bar to search product by its name -->
+          <input type="search" placeholder="Search" class="search" aria-label="Search" [(ngModel)]="searchTerm">
+      </div>
+      <div class="col-md-6"  style="float: right;">
+
+              <!-- dropdown menu to select category -->
+              <label for="category_select">By Category:</label>
+              <select class="form-control" name="" id="category_select" [(ngModel)]="selectedCategory">
+                <option value="All" selected>All Categories</option>
+                  <option *ngFor="let category of allCategories | async" [ngValue]="category.categoryId">{{category.categoryName}}</option>
+              </select>
+          </div>
+      </div>
+  </div>
+  <div class="row">
+      <div class="col-md-12">
+        <!-- all product details based on search and without search -->
+          <div class="col-md-3 col-centered" *ngFor="let product of allProducts | async | productfilter:searchTerm | categoryfilter:selectedCategory" style="float:left">
+              <div class="card card-block">
+                <img [src]="product.imageUrl" alt="" class="custom-image-style">
+                <div class="product-desc-container row">
+                  <div class="container">
+                    <p><strong>{{product.productName}}</strong></p>
+                    <p> Rs.{{product.price}}</p>
+                    <p>{{product.description}}</p>
+                  </div>
+                  <div class="text-center">
+                    <input type="number" value="1" style="width: 30px; margin-right: 10px;"  #quann>
+                    <button  class="btn btn-success btn-sm" (click)="addToCart(product,quann.value)">Add To Cart</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+      </div>
+  </div> 
+</div>

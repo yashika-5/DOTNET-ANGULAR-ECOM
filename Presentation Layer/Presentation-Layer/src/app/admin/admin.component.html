@@ -1,0 +1,15 @@
+<div class="container">
+    <h2>Welcome Admin</h2>
+    <br>
+    <form >
+        <div>
+            <label>On which part you want to perform Modifiction</label>
+            <select #a>
+                <option value="adminCategory" style="padding: 5px; border-radius: 3px; ">  Category </option>
+                <option value= "adminProduct" style="padding: 5px; border-radius: 3px;">Product</option>
+            </select>
+        </div>
+        
+         <button class="btn btn-success" (click)="proceed(a.value)"  type="button">Proceed</button> 
+    </form>
+</div>

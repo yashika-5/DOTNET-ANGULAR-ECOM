@@ -1,0 +1,163 @@
+<div class="container-fluid">
+    <div class="row">
+        <!-- partitioning a row into two equal columns -->
+        <div class="col-lg-6">
+            
+            <!-- form to add all product details -->
+            <form [formGroup]="addForm" (ngSubmit)="addProduct()" ngNativeValidate>
+                <h2>Add New Product</h2>
+                <hr>
+            <div class="form-group form-row">
+                <label class= "col-lg-3" for="productId">Product Id</label>
+                <div class="col-lg-9">
+                    <input type="number" name="productId" class="form-control" id="productId" required formControlName="productId">
+                </div>
+                
+            </div>
+    
+            <div class="form-group form-row">
+                <label class= "col-lg-3" for="productName">Product Name</label>
+                <div class="col-lg-9">
+                    <input type="text" name="productName" class="form-control" id="productName" formControlName="productName" required>
+                </div>
+                
+            </div>
+
+            <div class="form-group form-row">
+                <label class= "col-lg-3" for="categoryId">Category Name</label>
+                <div class="col-lg-9">
+                    <!--<input type="text" name="categoryId" class="form-control" id="categoryId" required formControlName="categoryId">-->
+                    <select name="categoryId" id="categoryId" class="form-control" required formControlName="categoryId">
+                        <option *ngFor = "let category of allCategories |async" [ngValue]="category.categoryId">{{category.categoryName}}</option>
+                    </select>
+                </div>
+                
+            </div>
+    
+            <div class="form-group form-row">
+                <label class= "col-lg-3" for="price">Price</label>
+                <div class="col-lg-9">
+                    <input type="number" name="price" class="form-control" id="price" formControlName="price" required>
+                </div>
+                
+            </div>
+        
+            <div class="form-group form-row">
+                <label class= "col-lg-3" for="description">Description</label>
+                <div class="col-lg-9">
+                    <input type="text" name="description" class="form-control" id="description" required formControlName="description">
+                </div>
+                
+            </div>
+            <div class="form-group form-row">
+                <label class= "col-lg-3" for="imagePath">Product Image</label>
+                <div class="col-lg-9">
+                    <input type="file" name="imagePath" accept="image/*" class="form-control" id="imagePath" required formControlName="imagePath" (change)=onUpload($event)>
+                </div>
+                
+            </div>
+    
+            <div class="form-row text-center">
+                <button type="submit" class="btn btn-success">Add Product</button>
+            </div>
+            
+            </form>
+        </div>
+        <div class="col-lg-6">
+            <!-- update form to modify any value in existing product -->
+            <form [formGroup]="updateForm" (ngSubmit)="updateProduct()" ngNativeValidate>
+                <h2>Update Product Details</h2>
+                <hr>
+            <div class="form-group form-row">
+                <label class= "col-md-3" for="newProductId">Product Id</label>
+                <div class="col-md-9">
+                    <input type="number" name="newProductId" class="form-control" id="newProductId" required formControlName="newProductId" readonly>
+                </div>
+                
+            </div>
+    
+            <div class="form-group form-row">
+                <label class= "col-md-3" for="newProductName">Product Name</label>
+                <div class="col-md-9">
+                    <input type="text" name="newProductName" class="form-control" id="newProductName" formControlName="newProductName" required>
+                </div>
+                
+            </div>
+
+            <div class="form-group form-row">
+                <label class= "col-md-3" for="newCategoryId">Category Name</label>
+                <div class="col-md-9">
+                    <!--<input type="text" name="newCategoryId" class="form-control" id="newCategoryId" required formControlName="newCategoryId">-->
+                    <select name="newCategoryId" id="newCategoryId" class="form-control" required formControlName="newCategoryId">
+                        <option *ngFor = "let category of allCategories |async" [ngValue]="category.categoryId">{{category.categoryName}}</option>
+                    </select>
+                </div>
+                
+            </div>
+    
+            <div class="form-group form-row">
+                <label class= "col-md-3" for="newPrice">Price</label>
+                <div class="col-md-9">
+                    <input type="number" name="newPrice" class="form-control" id="newPrice" formControlName="newPrice" required>
+                </div>
+                
+            </div>
+        
+            <div class="form-group form-row">
+                <label class= "col-md-3" for="newDescription">Description</label>
+                <div class="col-md-9">
+                    <input type="text" name="newDescription" class="form-control" id="newDescription" required formControlName="newDescription">
+                </div>
+                
+            </div>
+
+            <div class="form-group form-row">
+                <label class= "col-lg-3" for="newImagePath">Product Image</label>
+                <div class="col-lg-9">
+                    <input type="file" name="newImagePath" accept="image/*" class="form-control" id="newImagePath" required formControlName="newImagePath" (change)=onUploadNew($event)>
+                </div>
+                
+            </div>
+    
+            <div class="form-row text-center">
+                <button type="submit" class="btn btn-success">Update Product</button>
+            </div>
+            
+            </form>
+        </div>
+        
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-md-12">
+            <h2 class="heading">All Products</h2>
+            <!-- table to show all the products -->
+            <table class="table">
+                <thead class=" table-dark">
+                    <tr>
+                        <th>Product Image</th>
+                        <th>Product Id</th>
+                        <th>Product Name</th>
+                        <th>Category Id</th>
+                        <th>Price</th>
+                        <th>Description</th>
+                        <th>Action</th>
+                    </tr>
+                    
+                </thead>
+                <tbody>
+                    
+                    <tr *ngFor="let product of allProducts | async">
+                        <td><img [src]="product.imageUrl" style="width: 80px;height: 100px;"></td>
+                        <td>{{product.productId}}</td>
+                        <td>{{product.productName}}</td>
+                        <td>{{product.categoryId}}</td>
+                        <td>{{product.price}}</td>
+                        <td>{{product.description}}</td>
+                        <td><input type="button" value="Edit" class="btn btn-primary" (click)="searchProduct(product.productId)">&nbsp;<input class="btn btn-danger" type="button" value="Delete" (click)="deleteProduct(product.productId)"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

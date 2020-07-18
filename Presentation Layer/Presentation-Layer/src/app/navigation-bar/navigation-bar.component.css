@@ -1,0 +1,66 @@
+.navigation {
+    background-color: #eeeff0;
+    max-width: 100%;;
+}
+
+span:nth-child(2) {
+    width: fit-content;
+}
+/* Dropdown Button */
+.navigation section button {
+    margin-bottom: 10px;
+    margin-top: 5px;
+    margin-left: 25px;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+}
+
+/* The container <span> - needed to position the dropdown content */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+  }
+
+  /* Change color of dropdown links on hover */
+.dropdown-content a:hover {background-color: #ddd;}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {display: block;}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown:hover .dropbtn {background-color: #3e8e41;}
+
+/* h3 tag styling */
+.navigation h3 {
+    display: inline;
+    margin-left: 40px;
+    font-size: 25px;
+    padding-top: 20px;
+    padding-bottom: 10px;
+}
+
+/* Image Styling */
+.navigation img {
+    width: 4%;
+    height: 3%;
+}
+

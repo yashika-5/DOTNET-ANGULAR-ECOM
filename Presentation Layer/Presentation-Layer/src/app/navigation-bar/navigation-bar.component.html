@@ -1,0 +1,26 @@
+<div class="navigation">
+    <span class="dropdown">
+        <button class="btn btn-outline-dark" style="margin-left: 20px;">Menu</button>
+        <span class="dropdown-content">
+            <a routerLink="home">Home</a>
+            <a routerLink= "admin" *ngIf="login.isAdmin" >Admin</a>
+            <a routerLink="shop">All Products</a>
+            
+            <a routerLink="contact-us">Contact Us</a>
+            <a routerLink="about-us">About Us</a>
+        </span>
+    </span>    
+    <h3 class="display-4">CyberShopee Store
+        <img src="/assets/images/cart.jfif"> 
+    </h3>
+    
+    <a ><button routerLink="orders" class="btn btn-outline-dark" style="margin-left: 800px;">Account</button></a>
+    <button *ngIf="!login.loggedIn" routerLink="/login" class="btn btn-outline-dark" style="margin-left:40px">Sign In</button>
+    <button *ngIf="login.loggedIn" (click)="emptyCurrentUser()" routerLink="/login" class="btn btn-outline-dark" style="margin-left:40px">Sign Out</button>
+    <a routerLink="cart"><img src="/assets/images/cart.jfif" style="width: 3%; height: 3%; margin-left: 40px;"></a>
+</div>
+
+
+
+
+

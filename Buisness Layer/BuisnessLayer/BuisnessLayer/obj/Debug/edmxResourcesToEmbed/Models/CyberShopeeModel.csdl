@@ -1,0 +1,222 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="CyberShopeeModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="category">
+    <Key>
+      <PropertyRef Name="categoryId" />
+    </Key>
+    <Property Name="categoryId" Type="Int32" Nullable="false" />
+    <Property Name="categoryName" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="products" Relationship="Self.FK__products__catego__1BFD2C07" FromRole="categories" ToRole="products" />
+  </EntityType>
+  <EntityType Name="customer">
+    <Key>
+      <PropertyRef Name="userId" />
+    </Key>
+    <Property Name="userId" Type="Int32" Nullable="false" />
+    <Property Name="userName" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="email" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="phoneNo" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="address" Type="String" MaxLength="60" FixedLength="false" Unicode="false" />
+    <Property Name="pincode" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="user" Relationship="Self.FK__customers__userI__173876EA" FromRole="customers" ToRole="users" />
+    <NavigationProperty Name="orderDetails" Relationship="Self.FK__orderDeta__userI__276EDEB3" FromRole="customers" ToRole="orderDetails" />
+    <NavigationProperty Name="shoppingCarts" Relationship="Self.FK__shoppingC__userI__25869641" FromRole="customers" ToRole="shoppingCart" />
+  </EntityType>
+  <EntityType Name="orderDetail">
+    <Key>
+      <PropertyRef Name="orderItemId" />
+    </Key>
+    <Property Name="orderItemId" Type="Int32" Nullable="false" />
+    <Property Name="productId" Type="Int32" />
+    <Property Name="quantity" Type="Int32" />
+    <Property Name="price" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="totalAmount" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="userId" Type="Int32" />
+    <NavigationProperty Name="customer" Relationship="Self.FK__orderDeta__userI__276EDEB3" FromRole="orderDetails" ToRole="customers" />
+    <NavigationProperty Name="product" Relationship="Self.FK__orderDeta__produ__22AA2996" FromRole="orderDetails" ToRole="products" />
+    <NavigationProperty Name="user" Relationship="CyberShopeeModel.FK__orderDeta__userI__1ED998B2" FromRole="orderDetail" ToRole="user" />
+  </EntityType>
+  <EntityType Name="product">
+    <Key>
+      <PropertyRef Name="productId" />
+    </Key>
+    <Property Name="productId" Type="Int32" Nullable="false" />
+    <Property Name="productName" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="categoryId" Type="Int32" />
+    <Property Name="price" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="description" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+    <Property Name="imageUrl" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="category" Relationship="Self.FK__products__catego__1BFD2C07" FromRole="products" ToRole="categories" />
+    <NavigationProperty Name="orderDetails" Relationship="Self.FK__orderDeta__produ__22AA2996" FromRole="products" ToRole="orderDetails" />
+    <NavigationProperty Name="shoppingCarts" Relationship="Self.FK__shoppingC__produ__267ABA7A" FromRole="products" ToRole="shoppingCart" />
+  </EntityType>
+  <EntityType Name="role">
+    <Key>
+      <PropertyRef Name="roleId" />
+    </Key>
+    <Property Name="roleId" Type="Int32" Nullable="false" />
+    <Property Name="roleName" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="users" Relationship="Self.FK__users__roleId__1273C1CD" FromRole="roles" ToRole="users" />
+  </EntityType>
+  <EntityType Name="shoppingCart">
+    <Key>
+      <PropertyRef Name="cartNo" />
+    </Key>
+    <Property Name="cartNo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="userId" Type="Int32" />
+    <Property Name="productId" Type="Int32" />
+    <Property Name="quantity" Type="Int32" />
+    <Property Name="price" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="totalAmount" Type="Decimal" Precision="19" Scale="4" />
+    <NavigationProperty Name="customer" Relationship="Self.FK__shoppingC__userI__25869641" FromRole="shoppingCart" ToRole="customers" />
+    <NavigationProperty Name="product" Relationship="Self.FK__shoppingC__produ__267ABA7A" FromRole="shoppingCart" ToRole="products" />
+  </EntityType>
+  <EntityType Name="user">
+    <Key>
+      <PropertyRef Name="userId" />
+    </Key>
+    <Property Name="userId" Type="Int32" Nullable="false" />
+    <Property Name="userPassword" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="roleId" Type="Int32" />
+    <NavigationProperty Name="customer" Relationship="Self.FK__customers__userI__173876EA" FromRole="users" ToRole="customers" />
+    <NavigationProperty Name="role" Relationship="Self.FK__users__roleId__1273C1CD" FromRole="users" ToRole="roles" />
+    <NavigationProperty Name="orderDetails" Relationship="CyberShopeeModel.FK__orderDeta__userI__1ED998B2" FromRole="user" ToRole="orderDetail" />
+  </EntityType>
+  <Association Name="FK__products__catego__1BFD2C07">
+    <End Role="categories" Type="Self.category" Multiplicity="0..1" />
+    <End Role="products" Type="Self.product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="categories">
+        <PropertyRef Name="categoryId" />
+      </Principal>
+      <Dependent Role="products">
+        <PropertyRef Name="categoryId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__customers__userI__173876EA">
+    <End Role="users" Type="Self.user" Multiplicity="1" />
+    <End Role="customers" Type="Self.customer" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="users">
+        <PropertyRef Name="userId" />
+      </Principal>
+      <Dependent Role="customers">
+        <PropertyRef Name="userId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__orderDeta__userI__276EDEB3">
+    <End Role="customers" Type="Self.customer" Multiplicity="0..1" />
+    <End Role="orderDetails" Type="Self.orderDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="customers">
+        <PropertyRef Name="userId" />
+      </Principal>
+      <Dependent Role="orderDetails">
+        <PropertyRef Name="userId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__shoppingC__userI__25869641">
+    <End Role="customers" Type="Self.customer" Multiplicity="0..1" />
+    <End Role="shoppingCart" Type="Self.shoppingCart" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="customers">
+        <PropertyRef Name="userId" />
+      </Principal>
+      <Dependent Role="shoppingCart">
+        <PropertyRef Name="userId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__orderDeta__produ__22AA2996">
+    <End Role="products" Type="Self.product" Multiplicity="0..1" />
+    <End Role="orderDetails" Type="Self.orderDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="products">
+        <PropertyRef Name="productId" />
+      </Principal>
+      <Dependent Role="orderDetails">
+        <PropertyRef Name="productId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__shoppingC__produ__267ABA7A">
+    <End Role="products" Type="Self.product" Multiplicity="0..1" />
+    <End Role="shoppingCart" Type="Self.shoppingCart" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="products">
+        <PropertyRef Name="productId" />
+      </Principal>
+      <Dependent Role="shoppingCart">
+        <PropertyRef Name="productId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__users__roleId__1273C1CD">
+    <End Role="roles" Type="Self.role" Multiplicity="0..1" />
+    <End Role="users" Type="Self.user" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="roles">
+        <PropertyRef Name="roleId" />
+      </Principal>
+      <Dependent Role="users">
+        <PropertyRef Name="roleId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="CyberShopeeEntities1" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="categories" EntityType="Self.category" />
+    <EntitySet Name="customers" EntityType="Self.customer" />
+    <EntitySet Name="orderDetails" EntityType="Self.orderDetail" />
+    <EntitySet Name="products" EntityType="Self.product" />
+    <EntitySet Name="roles" EntityType="Self.role" />
+    <EntitySet Name="shoppingCarts" EntityType="Self.shoppingCart" />
+    <EntitySet Name="users" EntityType="Self.user" />
+    <AssociationSet Name="FK__products__catego__1BFD2C07" Association="Self.FK__products__catego__1BFD2C07">
+      <End Role="categories" EntitySet="categories" />
+      <End Role="products" EntitySet="products" />
+    </AssociationSet>
+    <AssociationSet Name="FK__customers__userI__173876EA" Association="Self.FK__customers__userI__173876EA">
+      <End Role="users" EntitySet="users" />
+      <End Role="customers" EntitySet="customers" />
+    </AssociationSet>
+    <AssociationSet Name="FK__orderDeta__userI__276EDEB3" Association="Self.FK__orderDeta__userI__276EDEB3">
+      <End Role="customers" EntitySet="customers" />
+      <End Role="orderDetails" EntitySet="orderDetails" />
+    </AssociationSet>
+    <AssociationSet Name="FK__shoppingC__userI__25869641" Association="Self.FK__shoppingC__userI__25869641">
+      <End Role="customers" EntitySet="customers" />
+      <End Role="shoppingCart" EntitySet="shoppingCarts" />
+    </AssociationSet>
+    <AssociationSet Name="FK__orderDeta__produ__22AA2996" Association="Self.FK__orderDeta__produ__22AA2996">
+      <End Role="products" EntitySet="products" />
+      <End Role="orderDetails" EntitySet="orderDetails" />
+    </AssociationSet>
+    <AssociationSet Name="FK__shoppingC__produ__267ABA7A" Association="Self.FK__shoppingC__produ__267ABA7A">
+      <End Role="products" EntitySet="products" />
+      <End Role="shoppingCart" EntitySet="shoppingCarts" />
+    </AssociationSet>
+    <AssociationSet Name="FK__users__roleId__1273C1CD" Association="Self.FK__users__roleId__1273C1CD">
+      <End Role="roles" EntitySet="roles" />
+      <End Role="users" EntitySet="users" />
+    </AssociationSet>
+    <AssociationSet Name="FK__orderDeta__userI__1ED998B2" Association="CyberShopeeModel.FK__orderDeta__userI__1ED998B2">
+      <End Role="user" EntitySet="users" />
+      <End Role="orderDetail" EntitySet="orderDetails" />
+    </AssociationSet>
+  </EntityContainer>
+  <Association Name="FK__orderDeta__userI__1ED998B2">
+    <End Type="CyberShopeeModel.user" Role="user" Multiplicity="0..1" />
+    <End Type="CyberShopeeModel.orderDetail" Role="orderDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="user">
+        <PropertyRef Name="userId" />
+      </Principal>
+      <Dependent Role="orderDetail">
+        <PropertyRef Name="userId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

@@ -1,0 +1,32 @@
+<hr>
+<h1><b>Delivery Details</b></h1>
+<hr>
+<form [formGroup]="orderForm"  autocomplete="off">
+  <table class="table table-dark table-hover" >
+      <tr ngclass="btn-primary">
+        <th class="tbl2">UserName</th>
+        <th class="tbl2">Email</th>
+        <th class="tbl2">PhoneNumber</th>
+        <th class="tbl2">Address</th>
+        <th class="tbl2">PinCode</th>
+      </tr>
+      <tr *ngFor="let detail of allDetails | async" >
+        <td class="tbl2">{{detail.userName}}</td>
+        <td class="tbl2">{{detail.email}}</td>
+        <td class="tbl2">{{detail.phoneNo}}</td>
+        <td class="tbl2">{{detail.address}}</td>
+        <td class="tbl2">{{detail.pincode}}</td>
+        <td class="tbl2">
+          <button class="btn btn-info" (click)="EditOrderItems(detail.userId)">Update Delivery Details</button>
+        </td>
+      </tr>
+      </table>
+      <hr>
+      <h3><i>COD is default Payment Option for following Orders</i></h3>
+      <hr>
+
+      <div >
+        <button type="button"  class="btn btn-info " (click)="PlaceOrder()"> Place Order </button>
+        <hr>
+      </div>
+</form>

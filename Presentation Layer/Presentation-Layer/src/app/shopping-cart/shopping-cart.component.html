@@ -1,0 +1,32 @@
+<hr>
+<h1 class="display-4 text-center">  <img src="assets/images/cart1.png" width="50" height="50" ><b>&nbsp;&nbsp;Shopping Cart</b></h1>
+<hr>
+<form [formGroup]="orderForm"  autocomplete="off">
+    <table class="table table-dark table-hover" >
+        <tr ngclass="btn-primary">
+          <th class="tbl2">Product</th>
+          <th class="tbl2">Price</th>
+          <th class="tbl2">Total Price</th>
+          <th class="tbl2">Quantity</th>
+        </tr>
+        <tr *ngFor="let detail of allDetails | async | cartfilter: searchTerm" >
+          <td class="tbl2">{{detail.productId}}</td>
+          <td class="tbl2">{{detail.price}}</td>
+          <td class="tbl2">{{detail.totalAmount}}</td>
+          <td class="tbl2">{{detail.quantity}}</td>
+          <!-- <td class="tbl2">
+            <button class="btn btn-info" (click)="EditOrderItems(detail.cartNo)">Update Quantity</button>
+          </td> -->
+          <td class="tbl2">
+            <button type="button" class="btn btn-danger " (click)="deleteOrder(detail.cartNo)"> Delete </button>
+          </td>
+        </tr>
+        </table>
+        <div >
+          <hr>
+          <h2 align="middle"><b>No Shipping Charges</b></h2>
+          <hr>
+          <button [disabled]="!((allDetails|async)?.length)"  type="button"  class="btn btn-info " (click)="checkOut()"> CheckOut </button>
+          <hr>
+        </div>
+ </form>
